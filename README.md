@@ -10,13 +10,32 @@
 
 ## 1. Objetivo
 
-Responder, sobre 20+ anos de série histórica, a pergunta que o dado de fogo
+> **Criar um sistema de análise histórica de eventos de fogo no Brasil guiado por
+> um serviço de chatbot em PLN.**
+
+O chatbot é o **serviço condutor** do sistema — não um canal alternativo a uma
+interface gráfica. O usuário chega com uma pergunta em linguagem natural; o mapa,
+os gráficos e as tabelas existem para materializar a resposta.
+
+Sobre 20+ anos de série histórica, o sistema responde a pergunta que o dado de fogo
 isolado não responde: **"quanto queimou, isso é normal, e o que significa?"**
 
-O produto existe para transformar detecções de satélite em **eventos de fogo
-analisáveis** — com início, fim, duração e área — e permitir que quatro perfis de
-usuário interroguem essa base em linguagem natural, sobre o território ou a área
-que lhes interessa, cruzando com outras bases ambientais.
+Para isso, transforma detecções de satélite em **eventos de fogo analisáveis** —
+com início, fim, duração e área — e permite que quatro perfis de usuário
+interroguem essa base sobre o território ou a área que lhes interessa, cruzando
+com outras bases ambientais.
+
+### O que "guiado por chatbot" implica
+
+1. **A conversa é a porta de entrada.** O sistema é desenhado a partir da pergunta
+   do usuário, não a partir de um painel com filtros. A interface gráfica serve à
+   conversa, e não o contrário.
+2. **Mapa, gráfico e tabela são artefatos da resposta**, não destinos separados.
+   Cada um aparece porque a pergunta pediu aquela forma — ver RF-5.
+3. **A camada de confiança deixa de ser acabamento.** Se a conversa conduz, ela
+   carrega a responsabilidade pelo número: declarar parâmetros, recusar quando não
+   sabe e sinalizar resposta frágil passam a ser requisitos centrais, não
+   periféricos — ver RF-4.4 a RF-4.6 e RNF-2.
 
 ### Por que existe
 
