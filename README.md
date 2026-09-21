@@ -248,7 +248,7 @@ limita o concorrente direto do produto.
 > RF-3.4 é o requisito central do produto: é o que responde *"isso é normal?"*,
 > pergunta que justifica a série de 20 anos.
 
-### RF-4 — Interface conversacional
+### RF-4 — Interface chatbot
 
 | ID | Requisito |
 |---|---|
