@@ -1,8 +1,8 @@
 # Plataforma de Analytics de Eventos de Fogo
 
-> Produto público e institucional (INPE) para análise retrospectiva de eventos de
-> fogo no Brasil, com recorte territorial e por área de interesse, interface
-> conversacional em linguagem natural e cruzamento com outros produtos INPE.
+> Sistema público e institucional (INPE) de **análise histórica de eventos de fogo
+> no Brasil, guiado por um serviço de chatbot em linguagem natural**, com recorte
+> territorial e por área de interesse e cruzamento com outros produtos INPE.
 
 *Documento de escopo. Não contém decisões de implementação.*
 
@@ -59,10 +59,10 @@ O levantamento de 15 plataformas que embasa este documento mostra ainda que:
 
 ### Diferenciais pretendidos
 
-1. **O evento como unidade de análise**, e não o foco isolado.
-2. **Recorrência e persistência** como atributos de primeira classe.
-3. **Consulta em linguagem natural** sobre um espaço de perguntas grande demais
-   para caber em formulário.
+1. **Chatbot em PLN como serviço condutor** — consulta sobre um espaço de
+   perguntas grande demais para caber em formulário.
+2. **O evento como unidade de análise**, e não o foco isolado.
+3. **Recorrência e persistência** como atributos de primeira classe.
 4. **Cruzamento fogo × qualidade do ar (SISAM)** — cadeia inédita no mercado.
 5. **Área de interesse arbitrária**, desenhada pelo usuário.
 
@@ -103,7 +103,8 @@ quantifica** (número de pessoas expostas).
 | Acesso | **Anônimo**, sem cadastro |
 | Idioma | **PT-BR** |
 | Modelo | **Público, institucional (INPE)** |
-| Interface | Mapa + área de interesse + chatbot em linguagem natural |
+| Interface | Chatbot em linguagem natural conduzindo mapa, gráficos e tabelas |
+| Área de interesse | Seleção de território, desenho no mapa e **carregamento de KML / shapefile / GeoJSON** |
 
 ### Fora de escopo
 
@@ -187,13 +188,37 @@ Um eixo só entra quando passa nos cinco:
 |---|---|
 | RF-1.1 | Selecionar território por município, estado ou bioma |
 | RF-1.2 | Desenhar área de interesse arbitrária sobre o mapa |
-| RF-1.3 | Definir período arbitrário, **inclusive janelas que cruzam anos** (ex.: set/2024 a fev/2025) |
-| RF-1.4 | Combinar recorte territorial, área desenhada e período numa mesma consulta |
-| RF-1.5 | Filtrar por atributos do evento (duração, área, status, recorrência) |
+| RF-1.3 | **Carregar arquivo de área de interesse em KML, shapefile ou GeoJSON** |
+| RF-1.4 | Editar ou remover a área de interesse depois de criada ou carregada |
+| RF-1.5 | Definir período arbitrário, **inclusive janelas que cruzam anos** (ex.: set/2024 a fev/2025) |
+| RF-1.6 | Combinar recorte territorial, área de interesse e período numa mesma consulta |
+| RF-1.7 | Filtrar por atributos do evento (duração, área, status, recorrência) |
 
-> RF-1.3 é diferencial explícito: o mercado analisado falha nisso — as plataformas
+> RF-1.5 é diferencial explícito: o mercado analisado falha nisso — as plataformas
 > de referência não isolam meses arbitrários nem permitem temporada que atravessa
 > o ano civil.
+
+#### RF-1.3 — Comportamento do carregamento de área
+
+O carregamento de arquivo é a forma pela qual o usuário traz **a área que já é dele**
+— propriedade, talhão, unidade de gestão, recorte de estudo — em vez de redesenhá-la
+à mão. É requisito de entrada para pesquisador e gestor, e é a lacuna que mais
+limita o concorrente direto do produto.
+
+| ID | Requisito |
+|---|---|
+| RF-1.3.1 | Aceitar **KML**, **shapefile** e **GeoJSON** |
+| RF-1.3.2 | Declarar o tratamento de arquivo com múltiplas feições **antes** do envio (cada feição vira uma área distinta, ou são unificadas) |
+| RF-1.3.3 | Nomear a área a partir do atributo de nome do arquivo, com regra de fallback declarada quando não houver |
+| RF-1.3.4 | Validar geometria e sistema de referência, reprojetando quando necessário, e recusar arquivo inválido com mensagem específica |
+| RF-1.3.5 | Listar as áreas carregadas na sessão, com remoção individual |
+| RF-1.3.6 | Informar o limite de tamanho e o que fazer quando o arquivo excede |
+
+> **Lições do levantamento aplicadas aqui:** teto de upload pequeno demais inviabiliza
+> polígono municipal detalhado ou malha de talhões (falha registrada no Global Nature
+> Watch); explicar o comportamento de múltiplas feições antes do envio evita que o
+> usuário descubra sozinho (acerto do ALARMES SIFAU); **não** permitir editar a área
+> depois de enviada é falha registrada no mesmo SIFAU — daí RF-1.4.
 
 ### RF-2 — Visualização espacial
 
@@ -309,6 +334,7 @@ do usuário.
 | RNF-1.2 | O volume de resposta deve ser proporcional à pergunta — resultados agregados não devem exigir transporte do dado bruto |
 | RNF-1.3 | Consultas de grande abrangência devem informar a dimensão do resultado antes de executar |
 | RNF-1.4 | O sistema deve degradar de forma previsível sob carga, sem falha silenciosa |
+| RNF-1.5 | O limite de tamanho de arquivo de área deve comportar polígono municipal detalhado e malha de talhões — e ser declarado ao usuário |
 
 > **Risco estrutural:** área arbitrária + série de 20 anos + múltiplos eixos é a
 > combinação mais cara possível de consulta, e é o núcleo do produto. Combinada com
@@ -447,7 +473,6 @@ Dependem de decisão da equipe, não de informação faltante.
 | **GOV-2** | Citabilidade da análise | Há papers publicados sobre a metodologia, utilizáveis como referência. Falta decidir se a análise individual recebe identidade estável (link permanente, "como citar") |
 | **GOV-3** | Autoridade do número | Como o produto se posiciona frente aos números já divulgados pelo Programa Queimadas. Divergência é esperada, dadas PM-1 a PM-3 |
 | **GOV-4** | Licença dos dados derivados e das exportações | Não definida |
-| **GOV-5** | Carregamento de arquivo de área (GeoJSON, shapefile) pelo usuário | Não decidido — apenas o desenho no mapa está confirmado |
 
 > **GOV-2 e GOV-3 são o mesmo assunto por dois ângulos** — ambos tratam de sob qual
 > autoridade o número é publicado. Recomenda-se levá-los juntos à equipe.
