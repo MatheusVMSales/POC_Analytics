@@ -307,8 +307,6 @@ do usuário.
   séries indexadas a uma base comum.
 - **Nunca mais de ~7 classes de cor** com significado. Acima disso: tabela,
   agrupamento em "Outros", ou heatmap.
-- **Nunca rampa de magnitude para identidade** (ex.: anos distintos numa rampa
-  sequencial — anos adjacentes ficam indistinguíveis).
 - **Cor segue a entidade, nunca a posição no ranking.**
 
 ### RF-6 — Exportação e proveniência
@@ -422,7 +420,7 @@ Duas posturas possíveis, ambas legítimas:
 
 **Status:** em aberto.
 
-### PM-2 — Homogeneidade da série ao longo da constelação
+### PM-2 — Homogeneidade da série
 
 A capacidade de detecção mudou substancialmente em 20 anos. Contar eventos de
 sensores diferentes ao longo da série produz uma curva cuja tendência mistura
@@ -435,7 +433,7 @@ GOES atravessa gerações de sensor bem distintas, com transição por volta de
 Questão em aberto: adotar satélite de referência para série histórica (convenção
 do próprio INPE), oferecer as duas leituras, ou declarar a quebra.
 
-**Status:** em aberto. **Maior consequência sobre a proposta de valor.**
+**Status:** em aberto.
 
 ### PM-3 — Definição e comparabilidade da área
 
@@ -449,7 +447,7 @@ consequências:
 
 Um usuário que comparar o km² deste produto com o hectare de plataformas que mapeiam
 cicatriz encontrará divergência grande. Ambos podem estar certos — são grandezas
-distintas. Exige nome próprio e nota metodológica.
+distintas. Exige nome próprio e nota metodológica. (vamos colocar uma opção de conversão de unidade ?)
 
 **Status:** em aberto.
 
